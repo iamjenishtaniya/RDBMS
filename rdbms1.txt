@@ -1,0 +1,92 @@
+create table dept1
+(
+	dept_no int,
+	dept_name varchar(30),
+	location varchar(10)
+);
+
+desc dept1;
+
+Name      Null Type         
+--------- ---- ------------ 
+DEPT_NO        NUMBER(38)   
+DEPT_NAME      VARCHAR2(30) 
+LOCATION       VARCHAR2(10) 
+
+
+
+
+insert into dept1 values(10,'Account','NY');
+insert into dept1 values(20,'HR','NY');
+insert into dept1 values(30,'Production','DL');
+insert into dept1 values(40,'Sales','NY');
+insert into dept1 values(50,'EDP','MU');
+insert into dept1 values(60,'TRG','AH');
+insert into dept1 values(110,'RND','');
+
+select * from dept1;
+
+DEPT_NO DEPT_NAME       LOCATION
+------  -----------     ---------
+10	Account 	NY
+20	HR	        NY
+30	Production	DL
+40	Sales		NY
+50	EDP		MU
+60	TRG		AH
+110	RND	
+
+select * from dept1 where location like '%NY%';
+
+DEPT_NO DEPT_NAME       LOCATION
+------  -----------     ---------
+10	Account		NY
+20	HR		NY
+40	Sales		NY
+
+select * from dept1 where dept_no=10;
+
+DEPT_NO DEPT_NAME       LOCATION
+------  -----------     ---------
+10	Account		NY
+
+select * from dept1 where dept_name like 'A%';
+
+DEPT_NO DEPT_NAME       LOCATION
+------  -----------     ---------
+10	Account		NY
+
+select * from dept1 where dept_no>10 and dept_no<110;
+
+DEPT_NO DEPT_NAME       LOCATION
+------  -----------     ---------
+20	HR		NY
+30	Production	DL
+40	Sales		NY
+50	EDP		MU
+60	TRG		AH
+
+delete from dept1 where dept_name='TRG';
+
+DEPT_NO DEPT_NAME       LOCATION
+------  -----------     ---------
+10	Account 	NY
+20	HR	        NY
+30	Production	DL
+40	Sales		NY
+50	EDP		MU
+110	RND	
+
+select * from dept1;
+
+update dept1 set dept_name='IT' where dept_name='EDP';
+
+DEPT_NO DEPT_NAME       LOCATION
+------  -----------     ---------
+10	Account		NY
+20	HR		NY
+30	Production	DL
+40	Sales		NY
+50	IT		MU
+110	RND	
+

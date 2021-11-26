@@ -1,0 +1,57 @@
+create table stud1(
+roll_no int primary key,
+name  varchar(30),
+class int,
+birthdate date);
+
+
+drop table stud;
+
+create table course (
+course_no int primary key,
+course_name varchar(30),
+max_marks int,
+pass_marks int);
+
+create table sc (
+roll_no int references stud1(roll_no),
+course_no int references course(course_no),
+marks varchar(20));
+
+alter table stud1 modify  class varchar(20);
+
+desc stud1;
+
+insert into stud1 values (1,'Jenish Taniya','A','2-Feb-00');
+insert into stud1 values (2,'Smit Shah','A','08-Aug-01');
+insert into stud1 values (3,'Amit Singh','B','21-Feb-99');
+insert into stud1 values (4,'Raj Patoliya','C','25-Apr-99');
+insert into stud1 values (5,'Mukesh Suthar','B','15-Jul-98');
+
+insert into course values(101,'python','100','65');
+insert into course values(102,'dbms','50','15');
+insert into course values(103,'com_network','70','26');
+insert into course values(104,'data_structure','60','36');
+insert into course values(105,'java','90','20');
+
+insert into sc values (1,101,76);
+insert into sc values (2,102,86);
+insert into sc values (3,103,56);
+insert into sc values (4,104,46);
+insert into sc values (5,105,66);
+
+select * from stud1;
+
+select * from course;
+
+select * from sc;
+
+alter table sc add constraint marks check( marks > 0 AND marks < 100);
+
+insert into sc values(6,106,100);
+
+alter table sc add constraint composite primary key(roll_no,course_no); 
+
+select * from stud1 where roll_no IN (select roll_no from sc where course_no = (select course_no from course where course_name = 'dbms') );
+
+

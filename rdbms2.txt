@@ -1,0 +1,110 @@
+create table dept
+(
+dept_no int primary key,
+dept_name varchar(50),
+location  varchar(30)
+);
+
+desc dept;
+
+Name      Null     Type         
+--------- -------- ------------ 
+DEPT_NO   NOT NULL NUMBER(38)   
+DEPT_NAME          VARCHAR2(50) 
+LOCATION           VARCHAR2(30) 
+
+
+create table emp
+(
+empid int primary key,
+emp_name varchar(50),
+birth_date varchar(15),
+gender varchar(10),
+dept_no int references dept(dept_no),
+address varchar(50),
+designation varchar(15) check(designation IN('manager','clerk','leader','analyst','designer','coder',
+'tester')),
+salary int check (salary > 0),
+experience int,
+email varchar(30) check(email like '%@%.%')
+);
+
+desc emp;
+
+Name        Null     Type         
+----------- -------- ------------ 
+EMPID       NOT NULL NUMBER(38)   
+EMP_NAME             VARCHAR2(50) 
+BIRTH_DATE           VARCHAR2(15) 
+GENDER               VARCHAR2(10) 
+DEPT_NO              NUMBER(38)   
+ADDRESS              VARCHAR2(50) 
+DESIGNATION          VARCHAR2(15) 
+SALARY               NUMBER(38)   
+EXPERIENCE           NUMBER(38)   
+EMAIL                VARCHAR2(30) 
+
+insert into dept values(101,'HR','Ahemdabad');
+insert into dept values(102,'Management','Surat');
+insert into dept values(103,'TOB','Vadodara');
+insert into dept values(104,'OTR','Rajkot');
+insert into dept values(105,'HTP','Jamnagar');
+
+select * from dept;
+
+DEPT_NO DEPT_NAME       LOCATION
+------  ----------      ---------
+101	HR		Ahemdabad
+102	Management	Surat
+103	TOB		Vadodara
+104	OTR		Rajkot
+105	HTP		Jamnagar
+
+
+insert into emp values(1,'Smit','25-Apr-2001','Male',101,'Adajan','manager',35000,4,'smit@gmail.com');
+insert into emp values(2,'Raj','17-Feb-1999','Male',102,'Sahara Darwaja','leader',25000,3,'raj@gmail.com');
+insert into emp values(3,'Amit','22-Nov-2000','Male',103,'Amroli','coder',20000,3,'amit@gmail.com');
+insert into emp values(4,'Nisha','09-May-2001','Female',104,'Dahej','analyst',15000,2,'nisha@gmail.com');
+insert into emp values(5,'Mukesh','25-Aug-2001','Male',105,'Jahangirpura','designer',25000,3,'mukesh@gmail.com');
+
+select * from emp;
+
+EMP_ID  EMP_NAME BIRTHDATE      GENDER  DEPT_NO ADDRESS         DESIGNATION     SALARY  EXPERIENCE      EMAIL
+------  -------- ---------      ------  ------- -------         -----------     ------  ----------      -----------
+1	Smit	25-Apr-2001	Male	101	Adajan		manager		35000	    4		smit@gmail.com
+2	Raj	17-Feb-1999	Male	102	Sahara Darwaja	leader		25000	    3		raj@gmail.com
+3	Amit	22-Nov-2000	Male	103	Amroli		coder		20000	    3		amit@gmail.com
+4	Nisha	09-May-2001	Female	104	Dahej		analyst		15000	    2		nisha@gmail.com
+5	Mukesh	25-Aug-2001	Male	105	Jahangirpura	designer	25000	    3		mukesh@gmail.com
+
+
+select * from emp ORDER BY  dept_no ASC;
+select * from dept ORDER BY  dept_no ASC;
+
+delete from dpt where location='ahmedabad';
+
+select * from emp where gender='female';
+
+select e.ename as employee,d.dname as department from emp e ,dpt d where e.did=d.dptid;
+
+select * from emp where salary>20000 and salary < 50000;
+
+select ename,desig from emp where gender='male' order by ename desc;
+
+select * from emp where ename like 'A%' or ename like 'a%'; 
+
+update emp set salary=salary+(salary*10/100) where did in (select dptid from dpt where dname='sales');
+
+select count(empid) as SALESDPT from emp where did in (select dptid from dpt where dname='sales'); 
+
+select * from emp where EXTRACT(MONTH from bdate)=EXTRACT (MONTH from sysdate);
+
+select concat(e.ename,concat(' works in ',concat(d.dname,' department.'))) from emp e ,dpt d where e.did=d.dptid;
+
+select e.ename from emp where expe<3;
+
+select e.ename as employee,d.dname as department from emp e ,dpt d where e.did=d.dptid and expe>5;
+
+create SEQUENCE did START WITH 6;
+
+select * from dpt where dptid not in(select did from emp);
