@@ -1,0 +1,118 @@
+SET:-4
+
+create table department 
+(
+dept_no int primary key,
+dept_name varchar(20),
+total_emp varchar(20),
+location varchar(20));
+
+
+
+select * from department;
+
+create table employee(
+emp_id int primary key, 
+emp_name varchar(50), 
+birth_date date, 
+gender varchar(20),
+dept_no int, 
+address varchar(50),
+designation varchar(20), 
+salary int,
+experience int, 
+email varchar(30) check( email like '%@%.%'),
+constraint dept_no foreign key (dept_no) references department (dept_no)
+);
+
+create table project(
+proj_id int primary key,
+type_of_project varchar(20),
+status varchar(20),
+start_date date,
+emp_id int references employee(emp_id)
+);
+
+alter table employee
+modify designation varchar(20) not null; 
+
+desc employee;
+
+alter table employee add unique(email);
+
+insert into department values(101,'Mech',8,'Surat');
+insert into department values(102,'MCA',10,'Navsari');
+insert into department values(103,'CIVIL',15,'Daman');
+insert into department values(104,'ELECTRICAL',20,'Silvasa');
+insert into department values(105,'AUTOMOBILE',15,'Vapi');
+insert into department values(106,'IT',0,'PUNE');
+
+alter table employee
+modify experience float;
+
+insert into employee values(1,'jenish','2-june-2000','male',101,'Surat','Manager',17000,3,'jrana@gmail.com');
+insert into employee values(2,'Raj','13-july-1999','male',101,'Vapi','CEO',30600,3.2,'rpatel@gmail.com');
+insert into employee values(3,'Amit','21-feb-2000','male',101,'Daman','MD',40600,0.2,'asingh@gmail.com');
+insert into employee values(4,'Mukesh','1-may-1990','male',101,'Valsad','AD',6000,2.5,'mukesh@gmail.com');
+insert into employee values(5,'vipul','10-aug-1988','male',101,'Silvasa','Developer',30500,4.5,'vipul@gmail.com');
+insert into employee values(6,'Smit','05-jan-2001','male',102,'Surat','Manager',10500,2.7,'sshah@gmail.com');
+insert into employee values(7,'dhri','10-july-1998','Female',102,'Vapi','CEO',30500,2.2,'dhri@gmail.com');
+insert into employee values(8,'sruti','03-aug-1990','Female',102,'Daman','MD',25000,2.2,'sruti@gmail.com');
+insert into employee values(9,'Avi','1-may-1989','male',102,'Valsad','AD',20300,2.9,'avi@gmail.com');
+insert into employee values(10,'Parth','25-aug-1982','male',102,'Silvasa','Developer',10600,10.5,'spatel@gmail.com');
+insert into employee values(11,'Ghanshyam','23-june-1999','male',102,'Surat','Manager',22600,1,'gansyam@gmail.com');
+insert into employee values(12,'Era','13-july-1998','Female',102,'Vapi','CEO',23600,2.2,'apatel@gmail.com');
+insert into employee values(13,'Radha','3-june-1990','Female',102,'Daman','MD',19600,3.2,'npatel@gmail.com');
+insert into employee values(14,'Amish','1-may-1989','male',103,'Valsad','AD',50360,4.9,'jpatel@gmail.com');
+insert into employee values(15,'Bhavik','25-aug-1982','male',103,'Silvasa','Developer',95600,8.5,'bhavik@gmail.com');
+insert into employee values(16,'Hiren','23-june-1999','male',104,'Surat','Manager',55600,1,'hiren@gmail.com');
+insert into employee values(17,'Sonalika','13-july-1998','Female',104,'Vapi','CEO',65600,2.2,'sonu@gmail.com');
+insert into employee values(18,'Mahi','3-june-1990','Female',104,'Daman','MD',85600,3.2,'mahi@gmail.com');
+insert into employee values(19,'Pinku','1-may-1989','male',104,'Valsad','AD',12600,4.9,'pinku@gmail.com');
+insert into employee values(20,'Karan','20-dec-1982','male',105,'Silvasa','Developer',10600,1.5,'karan@gmail.com');
+
+select * from employee;
+
+alter table employee
+modify experience float;
+
+insert into Project values(1001,'On Site','Pending','25-Oct-2018',1);
+insert into Project values(1002,'At Office','IN Proccess','15-Nov-2020',2);
+insert into Project values(1003,'On Site','Complated','10-Jan-2021',3);
+insert into Project values(1004,'At Office','Debuging','22-Mar-2016',4);
+insert into Project values(1005,'On Site','Pending','23-Oct-2020',5);
+insert into Project values(1006,'At Office','IN Proccess','23-Nov-2018',6);
+insert into Project values(1007,'On Site','Complated','23-Jan-2021',7);
+insert into Project values(1008,'At Office','Debuging','23-Mar-2015',8);
+insert into Project values(1009,'On Site','Pending','23-Dec-2020',9);
+insert into Project values(1010,'At Office','IN Proccess','23-Nov-2018',10);
+
+
+select * from project;
+
+delete from department where total_emp <1;
+
+select emp_name , designation from employee where gender='Female' order by emp_name desc;
+
+update employee set email='alpa@gmail.com' where email='mahi@gmail.com';
+
+select * from employee where emp_name like 'A%a';
+
+select emp_name,salary from employee where salary in(select  min(salary)from employee group by dept_no);
+
+update employee set salary = salary +(( salary /100)*10) where dept_no = (select dept_no from department where dept_name = 'CIVIL');
+
+select dept_name,total_emp from department where dept_name = 'MCA';
+
+select * from employee where extract(month from birth_date ) = (SELECT TO_CHAR (SYSDATE, 'MM') FROM DUAL );
+
+select emp.emp_name,emp.dept_no,dept.dept_name from employee emp,department dept where dept.dept_no = emp.dept_no and dept.dept_name = 'Mech';
+
+select emp_name,experience from employee where experience <= 1;
+
+select emp.emp_name, dept.dept_name,emp.experience from employee emp,department dept where dept.dept_no = emp.dept_no and emp.experience > 5;
+
+
+
+
+
