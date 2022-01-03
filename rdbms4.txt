@@ -112,6 +112,20 @@ select emp_name,experience from employee where experience <= 1;
 
 select emp.emp_name, dept.dept_name,emp.experience from employee emp,department dept where dept.dept_no = emp.dept_no and emp.experience > 5;
 
+create or replace trigger checkstatus
+before insert or update or delete
+on project
+for EACH ROW
+begin
+if(:new.status='pending') then
+raise_application_error(-20000,'Can not Insert to Record');
+end if;
+end;
+
+delete from project where proj_id=1012;
+
+insert into Project values(1012,'At Office','completed','23-Nov-2018',11);
+
 
 
 
